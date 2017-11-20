@@ -3,11 +3,13 @@ package com.ayvengoza.locatr;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -174,6 +177,18 @@ public class LocatrFragment extends Fragment {
 
     private class SearchTask extends AsyncTask<Location, Void, Void>{
         private GalleryItem mGalleryItem;
+        ProgressDialog mProgressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.show();
+
+        }
 
         @Override
         protected Void doInBackground(Location... locations) {
@@ -195,6 +210,7 @@ public class LocatrFragment extends Fragment {
                         .load(mGalleryItem.getUrl())
                         .into(mImageView);
             }
+            mProgressDialog.dismiss();
         }
     }
 }
