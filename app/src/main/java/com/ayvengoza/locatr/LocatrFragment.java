@@ -31,6 +31,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -39,7 +40,7 @@ import java.util.List;
  * Created by ayven on 19.11.2017.
  */
 
-public class LocatrFragment extends Fragment {
+public class LocatrFragment extends SupportMapFragment {
     private static final String TAG = "LocatrFragment";
     private static final String[] LOCATION_PERMISSIONS = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -47,7 +48,6 @@ public class LocatrFragment extends Fragment {
     };
     private static final int REQUEST_LOCATION_PERMISSIONS = 0;
 
-    private ImageView mImageView;
     private GoogleApiClient mClient;
 
     public static LocatrFragment newInstance(){
@@ -76,14 +76,6 @@ public class LocatrFragment extends Fragment {
                     }
                 })
                 .build();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_locatr, container, false);
-        mImageView = (ImageView) view.findViewById(R.id.image);
-        return view;
     }
 
     @Override
@@ -205,11 +197,6 @@ public class LocatrFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if(mGalleryItem != null){
-                Picasso.with(getActivity())
-                        .load(mGalleryItem.getUrl())
-                        .into(mImageView);
-            }
             mProgressDialog.dismiss();
         }
     }
