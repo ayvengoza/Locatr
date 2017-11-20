@@ -4,4 +4,5 @@
     <string name="dialog_title">Needed Location</string>
     <string name="dialog_message">Need access to location
     for download foto in same region as you are</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
