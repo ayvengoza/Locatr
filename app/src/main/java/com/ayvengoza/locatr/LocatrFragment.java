@@ -2,6 +2,8 @@ package com.ayvengoza.locatr;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -9,8 +11,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -95,8 +99,7 @@ public class LocatrFragment extends Fragment {
                 if(hasLocationPermission()){
                     findImage();
                 } else {
-                    requestPermissions(LOCATION_PERMISSIONS,
-                            REQUEST_LOCATION_PERMISSIONS);
+                    askLocatonPermission();
                 }
                 return true;
             default:
@@ -152,6 +155,21 @@ public class LocatrFragment extends Fragment {
         int result = ContextCompat
                 .checkSelfPermission(getActivity(), LOCATION_PERMISSIONS[0]);
         return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void askLocatonPermission(){
+        if(shouldShowRequestPermissionRationale(LOCATION_PERMISSIONS[0])){
+            DialogFragment dialog = RationaleDialogFragment
+                    .newInstance(R.string.dialog_title, R.string.dialog_message);
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(dialog, "Rationale Dialog")
+                    .commit();
+        } else {
+            requestPermissions(LOCATION_PERMISSIONS,
+                    REQUEST_LOCATION_PERMISSIONS);
+        }
+
     }
 
     private class SearchTask extends AsyncTask<Location, Void, Void>{

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Locatr</string>
     <string name="search">Find an image near you</string>
+    <string name="dialog_title">Needed Location</string>
+    <string name="dialog_message">Need access to location
+    for download foto in same region as you are</string>
 </resources>
